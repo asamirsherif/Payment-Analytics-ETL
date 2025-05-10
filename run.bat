@@ -67,9 +67,103 @@ for %%v in (3.12 3.11 3.10 3.9 3.8 3.7) do (
     )
 )
 
+:: Try to find Conda Python
+echo Checking for Conda installations...
+:: Check if conda is in PATH
+conda --version >nul 2>&1
+if %ERRORLEVEL% EQU 0 (
+    :: Get conda python path
+    for /f "tokens=*" %%i in ('conda info --base') do set CONDA_BASE=%%i
+    if exist "!CONDA_BASE!\python.exe" (
+        set PYTHON_CMD="!CONDA_BASE!\python.exe"
+        for /f "tokens=2" %%i in ('"!PYTHON_CMD!" --version 2^>^&1') do set PYTHON_VERSION=%%i
+        echo Found Python !PYTHON_VERSION! from Conda base environment
+        goto :python_found
+    )
+    
+    :: Try current conda environment if active
+    if defined CONDA_PREFIX (
+        if exist "!CONDA_PREFIX!\python.exe" (
+            set PYTHON_CMD="!CONDA_PREFIX!\python.exe"
+            for /f "tokens=2" %%i in ('"!PYTHON_CMD!" --version 2^>^&1') do set PYTHON_VERSION=%%i
+            echo Found Python !PYTHON_VERSION! from active Conda environment
+            goto :python_found
+        )
+    )
+)
+
+:: Check common installation paths
+echo Checking common installation paths...
+set COMMON_PATHS=^
+C:\Python312;^
+C:\Python311;^
+C:\Python310;^
+C:\Python39;^
+C:\Python38;^
+C:\Python37;^
+C:\Program Files\Python312;^
+C:\Program Files\Python311;^
+C:\Program Files\Python310;^
+C:\Program Files\Python39;^
+C:\Program Files\Python38;^
+C:\Program Files\Python37;^
+C:\Program Files (x86)\Python312;^
+C:\Program Files (x86)\Python311;^
+C:\Program Files (x86)\Python310;^
+C:\Program Files (x86)\Python39;^
+C:\Program Files (x86)\Python38;^
+C:\Program Files (x86)\Python37;^
+%LOCALAPPDATA%\Programs\Python\Python312;^
+%LOCALAPPDATA%\Programs\Python\Python311;^
+%LOCALAPPDATA%\Programs\Python\Python310;^
+%LOCALAPPDATA%\Programs\Python\Python39;^
+%LOCALAPPDATA%\Programs\Python\Python38;^
+%LOCALAPPDATA%\Programs\Python\Python37
+
+for %%p in (%COMMON_PATHS%) do (
+    if exist "%%p\python.exe" (
+        set PYTHON_CMD="%%p\python.exe"
+        for /f "tokens=2" %%i in ('"!PYTHON_CMD!" --version 2^>^&1') do set PYTHON_VERSION=%%i
+        echo Found Python !PYTHON_VERSION! at %%p
+        goto :python_found
+    )
+)
+
+:: Check for Anaconda/Miniconda in common locations
+set CONDA_PATHS=^
+C:\ProgramData\Anaconda3;^
+C:\ProgramData\Miniconda3;^
+%USERPROFILE%\Anaconda3;^
+%USERPROFILE%\Miniconda3;^
+%LOCALAPPDATA%\Continuum\anaconda3;^
+%LOCALAPPDATA%\Continuum\miniconda3
+
+for %%p in (%CONDA_PATHS%) do (
+    if exist "%%p\python.exe" (
+        set PYTHON_CMD="%%p\python.exe"
+        for /f "tokens=2" %%i in ('"!PYTHON_CMD!" --version 2^>^&1') do set PYTHON_VERSION=%%i
+        echo Found Python !PYTHON_VERSION! from Conda at %%p
+        goto :python_found
+    )
+)
+
+:: Search PATH for python.exe
+echo Searching PATH for Python installations...
+for %%p in (python.exe) do (
+    set FOUND_PATH=%%~$PATH:p
+    if defined FOUND_PATH (
+        for /f "delims=" %%i in ("!FOUND_PATH!") do set PYTHON_PATH=%%~dpi
+        set PYTHON_CMD="!FOUND_PATH!"
+        for /f "tokens=2" %%i in ('"!PYTHON_CMD!" --version 2^>^&1') do set PYTHON_VERSION=%%i
+        echo Found Python !PYTHON_VERSION! in PATH at !FOUND_PATH!
+        goto :python_found
+    )
+)
+
 :: If we reach here, Python was not found
 echo ERROR: Python not found. Please install Python 3.7 or newer.
 echo You can download Python from https://www.python.org/downloads/
+echo or install Anaconda/Miniconda from https://www.anaconda.com/products/distribution
 pause
 exit /b 1
 
