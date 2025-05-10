@@ -1,0 +1,17 @@
+2025-05-10 17:46:16,447 - INFO - Starting data cleaning process
+2025-05-10 17:46:16,447 - INFO - Output directory: D:\sql_approach_v\processed_data
+2025-05-10 17:46:16,447 - INFO - Batch size: 250000
+2025-05-10 17:46:16,448 - INFO - Parallel processing enabled (process-based) with 8 workers
+2025-05-10 17:46:16,448 - INFO - Checking and cleaning output directory: D:\sql_approach_v\processed_data
+2025-05-10 17:46:16,459 - INFO - Cleaned 7 .parquet file(s) from output directory.
+2025-05-10 17:46:16,460 - INFO - Processing a total of 7 files from all sources in parallel
+2025-05-10 17:48:05,015 - INFO - Successfully processed D:\sql_approach_v\input\test\unified_bank_data_with_nameFEB.csv to D:\sql_approach_v\processed_data\bank_unified_bank_data_with_nameFEB.parquet
+2025-05-10 17:48:05,015 - INFO - Successfully processed D:\sql_approach_v\input\test\checkout v1 FEB  10 days.csv to D:\sql_approach_v\processed_data\checkout_v1_checkout v1 FEB  10 days.parquet
+2025-05-10 17:48:05,015 - INFO - Successfully processed D:\sql_approach_v\input\test\2024-02-01-2024-02-29-10-days.csv to D:\sql_approach_v\processed_data\checkout_v2_2024-02-01-2024-02-29-10-days.parquet
+2025-05-10 17:48:05,015 - INFO - Successfully processed D:\sql_approach_v\input\test\METABASE-FEB-1-15.csv to D:\sql_approach_v\processed_data\metabase_METABASE-FEB-1-15.parquet
+2025-05-10 17:48:05,015 - INFO - Successfully processed D:\sql_approach_v\input\test\Payfort-2024.csv to D:\sql_approach_v\processed_data\payfort_Payfort-2024.parquet
+2025-05-10 17:48:05,015 - INFO - Successfully processed D:\sql_approach_v\input\test\portal.csv to D:\sql_approach_v\processed_data\portal_portal.parquet
+2025-05-10 17:48:05,015 - INFO - Successfully processed D:\sql_approach_v\input\test\Tamara-FEb.csv to D:\sql_approach_v\processed_data\tamara_Tamara-FEb.parquet
+2025-05-10 17:48:05,060 - INFO - Processing complete: 7 files processed.
+2025-05-10 17:48:05,061 - INFO - Output directory: D:\sql_approach_v\processed_data
+2025-05-10 17:48:05,061 - INFO - Use load_to_postgres.py to load the generated Parquet files into PostgreSQL.

@@ -1,0 +1,47 @@
+{
+    "sources": {
+        "portal": {
+            "files": [
+                "D:/sql_approach_v/input/test/portal.csv"
+            ]
+        },
+        "metabase": {
+            "files": [
+                "D:/sql_approach_v/input/test/METABASE-FEB-1-15.csv"
+            ]
+        },
+        "checkout_v1": {
+            "files": [
+                "D:/sql_approach_v/input/test/checkout v1 FEB  10 days.csv"
+            ]
+        },
+        "checkout_v2": {
+            "files": [
+                "D:/sql_approach_v/input/test/2024-02-01-2024-02-29-10-days.csv"
+            ]
+        },
+        "payfort": {
+            "files": [
+                "D:/sql_approach_v/input/test/Payfort-2024.csv"
+            ]
+        },
+        "tamara": {
+            "files": [
+                "D:/sql_approach_v/input/test/Tamara-FEb.csv"
+            ]
+        },
+        "bank": {
+            "files": [
+                "D:/sql_approach_v/input/test/unified_bank_data_with_nameFEB.csv"
+            ]
+        }
+    },
+    "configuration": {
+        "output_dir": "D:\\sql_approach_v\\processed_data",
+        "batch_size": 250000,
+        "max_workers": 8,
+        "use_parallel": true,
+        "force_overwrite": false,
+        "filters": {}
+    }
+}
