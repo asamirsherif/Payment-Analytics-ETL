@@ -6,6 +6,8 @@ The ETL Pipeline Manager is a Python-based application designed to streamline th
 
 The application supports direct SQL execution, batch processing, robust error handling, and flexible output options, including CSV, Excel, and Parquet formats.
 
+**Repository**: [https://github.com/asamirsherif/Payment-Analytics-ETL](https://github.com/asamirsherif/Payment-Analytics-ETL)
+
 ## 2. Key Features
 
 *   **Graphical User Interface (GUI)**: Built with PyQt5 for intuitive management of:
@@ -53,7 +55,7 @@ etl-pgsql/
 │   ├── load_to_postgres.py     # Utility script (part of a broader ETL process)
 │   ├── run.py                  # A script for running a pipeline (distinct from run.bat)
 │   ├── icons/                  # Directory for UI icons
-│   └── .env                    # Environment file for database credentials (create this file)
+│   └── .env                    # Environment file for database credentials (auto-created in src/ if missing, configurable via GUI)
 └── venv/                       # Virtual environment directory (created by run.bat)
 ```
 
@@ -62,30 +64,30 @@ etl-pgsql/
 ### Prerequisites
 
 *   **Python**: Version 3.7 or newer.
-*   **PostgreSQL**: A running PostgreSQL server instance.
-*   **Conda (Optional)**: If you use Conda for Python environment management, `run.bat` can detect and use Conda environments.
+*   **PostgreSQL**: A running PostgreSQL server instance. Ensure it's installed and running before starting the application.
 
 ### Installation Steps
 
-1.  **Clone the Repository (if applicable)**:
+1.  **Clone the Repository (Optional, if not already done)**:
     ```bash
-    git clone <repository_url>
-    cd etl-pgsql
+    git clone https://github.com/asamirsherif/Payment-Analytics-ETL.git
+    cd Payment-Analytics-ETL
     ```
-2.  **Create `.env` File for Database Credentials**:
-    In the `src/` directory, create a file named `.env` with your PostgreSQL connection details:
-    ```env
-    DB_HOST=your_db_host
-    DB_PORT=your_db_port (e.g., 5432)
-    DB_NAME=your_db_name
-    DB_USER=your_db_user
-    DB_PASSWORD=your_db_password
-    ```
-    *   The GUI also provides a dialog to configure and save these settings to the `.env` file.
 
-3.  **Install Dependencies**:
+2.  **Database Configuration (`.env` file)**:
+    *   The application requires a `.env` file located in the `src/` directory to store database credentials.
+    *   **Automatic Creation**: If `src/.env` is missing when you first run the application, it will be automatically created with placeholder values.
+    *   **GUI Configuration**: The primary way to set up your database connection is through the GUI.
+        *   Launch the application (see "How to Run" below).
+        *   Navigate to the "Sources" tab.
+        *   Click "Configure Database."
+        *   Enter your PostgreSQL details (host, port, database name, user, password).
+        *   Click "Test Connection" and then "OK" to save. This will update/create the `src/.env` file.
+    *   You generally do not need to edit the `src/.env` file manually.
+
+3.  **Install Dependencies and Run**:
     *   **Using `run.bat` (Recommended for Windows)**:
-        Simply double-click `run.bat`. It will:
+        Simply double-click `run.bat` located in the project's root directory. It will:
         1.  Detect your Python installation.
         2.  Create a virtual environment in a folder named `venv`.
         3.  Activate the virtual environment.
@@ -160,7 +162,9 @@ This is the primary tab for executing SQL queries.
 
 ## 7. Configuration
 
-*   **Database Connection**: Primarily configured via the `src/.env` file or the "Configure Database" dialog in the GUI.
+*   **Database Connection**:
+    *   Configured primarily via the **"Configure Database" dialog in the GUI** (Sources Tab). This will create or update the `src/.env` file.
+    *   The `src/.env` file stores:
     ```env
     DB_HOST=your_host
     DB_PORT=5432
@@ -171,6 +175,7 @@ This is the primary tab for executing SQL queries.
 *   **Output Directory**:
     *   The application defaults to creating and using an `output/` folder in the project's root directory.
     *   This can be changed temporarily via the "Browse..." button in the "Output" tab of the GUI.
+    *   The `.gitignore` file is configured to ignore the `output/` directory and the `src/.env` file, preventing accidental versioning of results and credentials.
 *   **`paths.json`**:
     *   Located in `src/paths.json`.
     *   Historically used for various path configurations, including `output_dir`.
