@@ -1610,7 +1610,7 @@ class MainWindow(QMainWindow):
         # Preview table with sample data
         self.preview_table = QTableWidget(0, 5)
         self.preview_table.setHorizontalHeaderLabels(["Order ID", "Date", "Amount", "Method", "Status"])
-        self.preview_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.preview_table.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
         
         # Set minimum height for preview table
         self.preview_table.setMinimumHeight(200)
