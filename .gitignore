@@ -1,0 +1,29 @@
+# Environment variables
+.env
+src/.env
+
+# Python virtual environment
+venv/
+
+# IDE and editor specific files
+.idea/
+.vscode/
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Output files from the application (optional, but good practice if they can be large or numerous)
+output/
+src/output/ # If output can also be generated inside src
+
+# OS-specific files
+.DS_Store
+Thumbs.db 

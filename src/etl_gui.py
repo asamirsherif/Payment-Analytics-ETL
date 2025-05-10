@@ -463,7 +463,7 @@ class DatabaseConnection:
             
             # Load environment variables
             env_path = Path(__file__).parent / '.env'
-            load_dotenv(env_path)
+            load_dotenv(env_path, override=True)
             
             # Get database connection parameters
             db_host = os.getenv('DB_HOST', 'localhost')
@@ -861,6 +861,8 @@ class MainWindow(QMainWindow):
     def __init__(self):
         """Initialize the main application window with all UI components."""
         super().__init__()
+        
+        self._ensure_env_file_exists() # Ensure .env file exists before anything else
         
         # Initialize database connection
         self.db = DatabaseConnection()
@@ -4661,6 +4663,46 @@ class MainWindow(QMainWindow):
             if not hasattr(self, '_event_filters'):
                 self._event_filters = []
             self._event_filters.append(hover_filter)
+
+    def _ensure_env_file_exists(self):
+        """Checks if 'src/.env' exists and creates it with defaults if not."""
+        env_path = Path(__file__).parent / '.env'
+        if not env_path.exists():
+            try:
+                with open(env_path, 'w') as f:
+                    f.write("# PostgreSQL Connection Details\\n")
+                    f.write("DB_HOST=localhost\\n")
+                    f.write("DB_PORT=5432\\n")
+                    f.write("DB_NAME=your_database_name\\n")
+                    f.write("DB_USER=your_username\\n")
+                    f.write("DB_PASSWORD=your_password\\n")
+                
+                # Optionally inform the user
+                if hasattr(self, 'statusBar') and self.statusBar:
+                     self.statusBar.showMessage("Created default 'src/.env' file. Please configure your database details.", 10000)
+                else: # Fallback if statusbar not yet initialized
+                    print("Created default 'src/.env' file. Please configure your database details.")
+                
+                # Display a message box to the user as well for more prominence
+                QMessageBox.information(
+                    None, # Parent can be None if called before main window is fully up
+                    ".env File Created",
+                    f"A default .env file has been created at: {env_path}\\n\\n"
+                    "Please open this file and update it with your actual PostgreSQL database credentials "
+                    "before attempting to connect to the database."
+                )
+            except Exception as e:
+                error_msg = f"Failed to create default .env file: {str(e)}"
+                if hasattr(self, 'log_output') and self.log_output: # Check if log_output exists
+                    self.log_output.append(f"<span style='color:#e74c3c'><b>{error_msg}</b></span>")
+                else:
+                    print(error_msg) # Fallback to console print
+
+                QMessageBox.warning(
+                    None,
+                    "Error Creating .env",
+                    error_msg
+                )
 
 class DatabaseConfigDialog(QDialog):
     """Dialog to configure database connection settings."""
